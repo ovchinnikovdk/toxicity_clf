@@ -3,7 +3,7 @@ from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
 
 class BiLSTM(torch.nn.Module):
-    def __init__(self, num_classes=6, pad_size=256, emb_size=512, vocab_size=3, n_layers=4, hidden_size=128):
+    def __init__(self, num_classes=6, pad_size=256, emb_size=512, vocab_size=3, n_layers=4, hidden_size=256):
         super(BiLSTM, self).__init__()
         self.emb_size = emb_size
         self.pad_size = pad_size
@@ -31,6 +31,7 @@ class BiLSTM(torch.nn.Module):
         x = pack_padded_sequence(x, lengths, batch_first=True, enforce_sorted=False)
         x, h = self.lstm(x)
         x, _ = pad_packed_sequence(x, batch_first=True, total_length=self.pad_size)
+        x = x.unsqueeze(1)
         x = self.pool(x)
         x = x.view(x.shape[0], -1)
         x = self.classifier(x)

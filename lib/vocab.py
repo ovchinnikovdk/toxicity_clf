@@ -11,10 +11,11 @@ EOS = '_EOS_'
 UNK = '_UNK_'
 
 
-class CommentVocab:
-    def __init__(self, load=False,
+class CommentVocab(object):
+    def __init__(self, load=True,
                  text_paths=['data/train.csv', 'data/test.csv'],
                  save_path='vocab/'):
+        super(CommentVocab, self).__init__()
         self.text_preprocess = TextPreprocess()
         if load:
             print('Loading saved vocabulary')
@@ -34,7 +35,7 @@ class CommentVocab:
                     self.tokens.extend(lst)
             counter = Counter()
             counter.update(self.tokens)
-            self.tokens = [word for word, count in counter.most_common(30000)]
+            self.tokens = [word for word, count in counter.most_common(10000)]
             self.tokens = [BOS, EOS, UNK] + list(sorted(self.tokens))
             self.token2id = {token: idx for idx, token in enumerate(self.tokens)}
             if not os.path.exists(save_path):
