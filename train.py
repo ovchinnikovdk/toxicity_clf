@@ -1,5 +1,6 @@
 from models.bi_lstm import BiLSTM
 from models.bi_lstm_attn import BiLSTM_Attn
+from models.cnn import TextCNN
 import torch
 from catalyst.dl import SupervisedRunner
 from catalyst.dl.callbacks import AUCCallback, F1ScoreCallback
@@ -15,7 +16,8 @@ pad_size = 256
 
 models = {
     'bisltm': BiLSTM,
-    'bilstm_attn': BiLSTM_Attn
+    'bilstm_attn': BiLSTM_Attn,
+    'text_cnn': TextCNN
 
 }
 params = {
@@ -24,6 +26,10 @@ params = {
         'pad_size': pad_size
     },
     'bilstm_attn': {
+        'vocab_size': len(vocab),
+        'pad_size': pad_size
+    },
+    'text_cnn': {
         'vocab_size': len(vocab),
         'pad_size': pad_size
     }
@@ -71,7 +77,7 @@ def main():
 
     # data
     loaders = collections.OrderedDict()
-    data = pd.read_csv('data/train.csv')[:20000]
+    data = pd.read_csv('data/train.csv')
     test_df = data.sample(frac=0.1)
     train_df = data.drop(test_df.index)
     train_df, test = train_df.reset_index(), test_df.reset_index()
