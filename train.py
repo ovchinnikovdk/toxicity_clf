@@ -6,7 +6,7 @@ from catalyst.dl import SupervisedRunner
 from catalyst.dl.callbacks import AUCCallback, F1ScoreCallback
 import collections
 from torch.utils.data import DataLoader
-from lib.dataset import TextTrainDataset
+from lib.dataset import TextTrainDataset, TrainPreparedDataset
 import pandas as pd
 from lib.vocab import CommentVocab
 import argparse
@@ -15,7 +15,7 @@ vocab = CommentVocab(load=True)
 pad_size = 256
 
 models = {
-    'bisltm': BiLSTM,
+    'bilstm': BiLSTM,
     'bilstm_attn': BiLSTM_Attn,
     'text_cnn': TextCNN
 
@@ -77,14 +77,14 @@ def main():
 
     # data
     loaders = collections.OrderedDict()
-    data = pd.read_csv('data/train.csv')
+    data = pd.read_csv('data/train_prepared.csv')
     test_df = data.sample(frac=0.1)
     train_df = data.drop(test_df.index)
     train_df, test = train_df.reset_index(), test_df.reset_index()
-    train_dataset = TextTrainDataset(df=train_df, vocab=vocab, pad_size=pad_size)
-    val_dataset = TextTrainDataset(df=test_df, vocab=vocab, pad_size=pad_size)
-    loaders["train"] = DataLoader(train_dataset, shuffle=True, batch_size=128)
-    loaders["valid"] = DataLoader(val_dataset, shuffle=False, batch_size=128)
+    train_dataset = TrainPreparedDataset(train_df)
+    val_dataset = TrainPreparedDataset(test_df)
+    loaders["train"] = DataLoader(train_dataset, shuffle=True, num_workers=4, batch_size=128)
+    loaders["valid"] = DataLoader(val_dataset, shuffle=False, num_workers=4, batch_size=128)
 
     train(num_epochs, model, loaders, logdir)
 

@@ -13,17 +13,19 @@ class TextCNN(torch.nn.Module):
         self.cnn = torch.nn.Sequential(torch.nn.Conv2d(1, 8, kernel_size=5),
                                        torch.nn.ReLU(),
                                        torch.nn.MaxPool2d(kernel_size=2),
-                                       torch.nn.BatchNorm(8),
+                                       torch.nn.BatchNorm2d(8),
                                        torch.nn.Conv2d(8, 8, kernel_size=5),
                                        torch.nn.ReLU(),
                                        torch.nn.MaxPool2d(kernel_size=2),
-                                       torch.nn.BatchNorm(8))
+                                       torch.nn.BatchNorm2d(8))
         self.fc = torch.nn.Sequential(torch.nn.Linear(2 * (self.emb_size - 5) * (self.pad_size - 5), 512),
                                       torch.nn.Dropout(0.5),
                                       torch.nn.Linear(512, num_classes))
 
     def forward(self, x):
+        x, lengths = x
         x = self.embedding(x)
+        x = x.view(x.shape[0], 1, x.shape[1], x.shape[2])
         x = self.cnn(x)
         x = x.view(x.shape[0], -1)
         x = self.fc(x)
