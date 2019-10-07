@@ -11,7 +11,7 @@ vocab = CommentVocab(load=True)
 pad_size = 256
 
 models = {
-    'bisltm': BiLSTM,
+    'bilstm': BiLSTM,
     'bilstm_attn': BiLSTM_Attn,
     'text_cnn': TextCNN
 

@@ -11,7 +11,7 @@ import pandas as pd
 from lib.vocab import CommentVocab
 import argparse
 
-vocab = CommentVocab(load=True)
+# vocab = CommentVocab(load=True)
 pad_size = 256
 
 models = {
@@ -22,15 +22,15 @@ models = {
 }
 params = {
     'bilstm': {
-        'vocab_size': len(vocab),
+        'vocab_size': 10003,
         'pad_size': pad_size
     },
     'bilstm_attn': {
-        'vocab_size': len(vocab),
+        'vocab_size': 10003,
         'pad_size': pad_size
     },
     'text_cnn': {
-        'vocab_size': len(vocab),
+        'vocab_size': 10003,
         'pad_size': pad_size
     }
 }
@@ -83,8 +83,8 @@ def main():
     train_df, test = train_df.reset_index(), test_df.reset_index()
     train_dataset = TrainPreparedDataset(train_df)
     val_dataset = TrainPreparedDataset(test_df)
-    loaders["train"] = DataLoader(train_dataset, shuffle=True, num_workers=4, batch_size=128)
-    loaders["valid"] = DataLoader(val_dataset, shuffle=False, num_workers=4, batch_size=128)
+    loaders["train"] = DataLoader(train_dataset, shuffle=True, num_workers=4, batch_size=160)
+    loaders["valid"] = DataLoader(val_dataset, shuffle=False, num_workers=4, batch_size=160)
 
     train(num_epochs, model, loaders, logdir)
 

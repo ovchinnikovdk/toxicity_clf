@@ -32,9 +32,9 @@ class TextInferenceDataset(Dataset):
     def __init__(self, df, vocab, pad_size=256, device='cpu'):
         super(TextInferenceDataset, self).__init__()
         self.pad_size = pad_size
-        self.df = df
         self.vocab = vocab
         self.device = device
+        self.df = df
 
     def __len__(self):
         return len(self.df)

@@ -48,8 +48,8 @@ class CommentVocab(object):
         return len(self.tokens)
 
     def text2ids(self, text):
-        return [self.token2id[UNK] if token not in self.token2id else self.token2id[token]
-                for token in self.text_preprocess(text)]
+        return [0] + [self.token2id[UNK] if token not in self.token2id else self.token2id[token]
+                      for token in self.text_preprocess(text)]
 
     def words2ids(self, words):
         return [self.token2id[UNK] if word not in self.token2id else self.token2id[word]
