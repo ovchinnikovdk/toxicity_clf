@@ -53,7 +53,7 @@ class StackingInference:
                 preds.append(torch.nn.Sigmoid(model(texts)))
                 model.cpu()
             preds = torch.cat(preds, dim=1)
-            preds = torch.nn.Sigmoid(self.hyper_model(preds))
+            preds = torch.nn.Sigmoid()(self.hyper_model(preds))
             cur_df = pd.DataFrame()
             cur_df['id'] = ids
             for idx, column in enumerate(self.columns):
