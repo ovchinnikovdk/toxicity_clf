@@ -12,7 +12,7 @@ class Attention(torch.nn.Module):
         lstm_output = lstm_output.permute(0, 2, 1)
         attn_w = torch.bmm(lstm_output, hidden)
         soft_w = self.softmax(attn_w)
-        return torch.bmm(lstm_output.permute(0, 2, 1), soft_w).squeeze(2)
+        return torch.bmm(lstm_output, soft_w.permute(0, 2, 1)).squeeze(2)
 
 
 class BiLSTM_Attn(torch.nn.Module):

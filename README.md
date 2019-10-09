@@ -17,7 +17,9 @@ python train.py --model=model_name --n_epochs=N
 ```
 
 Loss: `BCEWithLogits`
-Optimizer: `Adam` with `ReduceLROnPlateau` 
+
+Optimizer: `Adam` with `ReduceLROnPlateau`
+ 
 Metrics: AUC, F1-score. 
 
 ## Inference 
@@ -30,5 +32,21 @@ python infer.py --model=model_name --path=PATH_TO_CSV_FILE
 ## Vocabulary
 Simple Dict vocabulary with top 10k frequent words, excluding stopwords. 
 For additional information please see: `vocab.CommentVocab`.
+
+## Links
+Inspired by 
+
+![Kaggle 1](https://www.kaggle.com/abhinav2308/pytorch-toxic-comment-solution)
+
+![Kaggle 2](https://www.kaggle.com/yekenot/textcnn-2d-convolution)
+
+![Kaggle 3](https://www.kaggle.com/fizzbuzz/bi-lstm-conv-layer-lb-score-0-9840)
+
+![Kaggle 4](https://www.kaggle.com/ybonde/cleaning-word2vec-lstm-working)
+
+![Github Text Classification](https://github.com/prakashpandey9/Text-Classification-Pytorch)
+
+![Doc2Vec](https://deeplearning4j.org/docs/latest/deeplearning4j-nlp-doc2vec)
+
 
  
